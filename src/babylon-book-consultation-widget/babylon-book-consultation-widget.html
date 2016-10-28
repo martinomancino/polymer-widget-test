@@ -11,6 +11,7 @@
       }
       .babylon-widget-input {
         display: inline-block;
+        color: #fff;
       }
 
       .babylon-widget-input.button {
@@ -18,9 +19,17 @@
         color: #fff;
         box-shadow: none;
       }
+      
+      .focused-line.paper-input-container {
+        background-color: #7601dd;
+      }
+      
+      label.paper-input {
+        color: #fff;
+      }
 
     </style>
-    <h2>[[prop1]]</h2>
+<!--     <h2>[[prop1]]</h2> -->
 
     <form is="iron-form" id="form" method="post" action="">
       <paper-input class="babylon-widget-input" id="formDate" name="date" label="dd-mm-yyy" value={{input.date}}></paper-input>
