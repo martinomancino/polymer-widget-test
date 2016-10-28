@@ -1,0 +1,7 @@
+{
+  "name": "babylon-widgets",
+  "short_name": "babylon-widgets",
+  "description": "This widget allow the user to pick a preferred date and time to book a GP consultation. On submit the preferred choise is passed to the WebApp by parameters in URL",
+  "start_url": "/",
+  "display": "standalone"
+}
