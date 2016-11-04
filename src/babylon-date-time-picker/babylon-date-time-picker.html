@@ -1,0 +1,101 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../paper-picker-input/paper-picker-input.html">
+<link rel="import" href="../babylon-time-picker/babylon-time-picker.html">
+<link rel="import" href="../babylon-picker-behaviours/babylon-picker-behaviours.html">
+<script src="../../bower_components/moment/moment.js"></script>
+
+<dom-module id="babylon-date-time-picker">
+  
+    <style>
+      :host {
+        display: block;
+        text-align: center;
+      }
+
+      form {
+        width: auto;
+        margin: 0 auto;
+      }
+
+      .babylon-widget-input {
+        display: inline-block;
+        width: 500px;
+      }
+
+      .babylon-widget-input.button {
+        background-color: #7601dd;
+        color: #fff;
+        box-shadow: none;
+        width: 80px;
+        vertical-align: top;
+        line-height: 1.8;
+        height: 48px;
+      }
+      
+      #datePicker {
+        display: inline-block;
+        width: auto;
+        border: 1px solid #dedede;
+        vertical-align: top;
+      }
+
+      #timePicker {
+        display: inline-block;
+        width: auto;
+        border: 1px solid #dedede;
+        vertical-align: top;
+      }
+
+    </style>
+
+    <template>
+      <form is="iron-form" id="form" method="post" action="" >
+        <paper-picker-input id="datePicker" icon="icons:today" picker="date" date="{{date}}"></paper-picker-input>
+        <paper-picker-input id="timePicker" icon="icons:alarm" picker="time" hours="{{hours}}" minutes="{{minutes}}"></paper-picker-input>
+        <paper-button class="babylon-widget-input button" raised on-tap="_submit">Submit</paper-button>
+      </form>
+    
+    </template>
+
+  <script>
+    Polymer({
+
+      is: 'babylon-date-time-picker',
+
+      properties: { 
+        date: {
+          type: String,
+          notify: true
+        },
+
+        hours: {
+          type: String,
+          notify: true
+        },
+
+        minutes: {
+          type: String,
+          notify: true
+        }
+
+
+      },
+
+      behaviors: [
+        Polymer.BabylonPickerItemBehavior
+      ],
+
+      _submit: function(){
+        this._submitForm();
+      },
+
+      attributeChanged: function(name, type) {
+        console.log(this.localName + '#' + this.id + ' attribute ' + name +
+          ' was changed to ' + this.getAttribute(name));
+      }
+    });
+  </script>
+</dom-module>

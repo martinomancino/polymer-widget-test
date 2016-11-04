@@ -1,6 +1,10 @@
-<link rel="import" href="https://cdn.rawgit.com/martinomancino/polymer-widget-test/master/bower_components/polymer/polymer.html">
-<link rel="import" href="https://cdn.rawgit.com/martinomancino/polymer-widget-test/master/bower_components/paper-input/paper-input.html">
-<link rel="import" href="https://cdn.rawgit.com/martinomancino/polymer-widget-test/master/bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/paper-date-picker/paper-date-picker.html">
+<link rel="import" href="../babylon-date-time-picker/babylon-date-time-picker.html">
+<script src="../../bower_components/moment/moment.js"></script>
 
 <dom-module id="babylon-book-consultation-widget">
   <template>
@@ -9,29 +13,10 @@
         display: block;
         text-align: center;
       }
-      .babylon-widget-input {
-        display: inline-block;
-        color: #fff;
-        padding: 8px 30px;
-        background: #fff;
-        
-      }
-     
-      .babylon-widget-input.button {
-        background-color: #7601dd;
-        color: #fff;
-        box-shadow: none;
-      }
- 
 
     </style>
-<!--     <h2>[[prop1]]</h2> -->
 
-    <form is="iron-form" id="form" method="post" action="">
-      <paper-input class="babylon-widget-input" id="formDate" name="date" label="dd-mm-yyy" value={{input.date}}></paper-input>
-      <paper-input class="babylon-widget-input" id="formTime" name="time" label="hhmm" value={{input.time}}></paper-input>
-      <paper-button class="babylon-widget-input button" raised on-tap="submitForm">Submit</paper-button>
-    </form>
+    <babylon-date-time-picker></babylon-date-time-picker>
 
   </template>
 
@@ -41,20 +26,11 @@
       is: 'babylon-book-consultation-widget',
 
       properties: {
-        prop1: {
+        title: {
           type: String,
           value: 'Book a GP consultation',
-        },
-        input: {
-          date: '',
-          time: ''
         }
-      },
-      submitForm: function () {
-        console.log('Values: ', this.$.formTime.value, this.$.formDate.value)
-        window.location.href = `https://online.babylonhealth.com/sign-in?date=${this.$.formDate.value}&time=${this.$.formTime.value}` ;
       }
-
     });
   </script>
 </dom-module>

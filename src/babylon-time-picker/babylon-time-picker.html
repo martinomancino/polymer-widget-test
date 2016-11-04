@@ -1,0 +1,100 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../babylon-picker-behaviours/babylon-picker-behaviours.html">
+<script src="../../bower_components/moment/moment.js"></script>
+
+<dom-module id="babylon-time-picker">
+  
+    <style>
+      :host {
+        display: block;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .wrap-hours,
+      .wrap-minutes,
+      .wrap-separator {
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        color: #7601dd;
+      }
+
+      .btn {
+        display: block;
+        background: none;
+        border: none;
+        transform: rotate(90deg);
+        outline: none;
+        cursor: pointer;
+        margin: 0 auto;
+      }
+
+     .btn .icon {
+       width: 60px;
+       height: 60px;
+       color: #7601dd;
+     }
+
+      input {
+        border: none;
+        font-size: 3.4em;
+        width: 100px;
+        margin: 0 auto;
+        color: #555555;
+        text-align: center;
+      }
+
+      .time-separator {
+        font-size: 3em;
+      }
+
+    </style>
+
+    <template>
+      <div>
+        <div class="wrap-hours">
+          <button class="btn btn__up" type="button" on-tap="_increaseHour">
+            <iron-icon icon="icons:chevron-left" item-icon class="icon"></iron-icon>
+          </button>
+          <input id="hours" type="text" name="hours" value="{{hours}}">
+          <button class="btn btn__down" type="button" on-tap="_decreaseHour">
+            <iron-icon icon="icons:chevron-right" item-icon class="icon"></iron-icon>
+          </button>
+        </div>
+
+        <div class="wrap-separator">
+          <span class="time-separator">:</span>
+        </div>
+        
+        <div class="wrap-minutes">
+          <button class="btn btn__up" type="button" on-tap="_increaseMinute">
+            <iron-icon icon="icons:chevron-left" item-icon class="icon"></iron-icon>
+          </button>
+          <input id="minutes" type="text" name="minutes" value="{{minutes}}">
+          <button class="btn btn__down" type="button" on-tap="_decreaseMinute">
+            <iron-icon icon="icons:chevron-right" item-icon class="icon"></iron-icon>
+          </button>
+        </div>
+      </div>
+    </template>
+
+  <script>
+    Polymer({
+      is: 'babylon-time-picker',
+
+      properties: {
+        title: {
+           type: String,
+           value: 'Time Picker'
+        }
+      },
+
+      behaviors: [
+			  Polymer.BabylonPickerItemBehavior
+		  ]
+    });
+  </script>
+  
+</dom-module>

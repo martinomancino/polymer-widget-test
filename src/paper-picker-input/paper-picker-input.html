@@ -1,0 +1,82 @@
+<!doctype html>
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../babylon-picker-behaviours/babylon-picker-behaviours.html">
+<link rel="import" href="../paper-date-picker-modal/paper-date-picker-modal.html">
+<link rel="import" href="../paper-time-picker-modal/paper-time-picker-modal.html">
+
+<dom-module id="paper-picker-input">
+
+	<style>
+		.icon {
+			color: var(--disabled-text-color);
+		}
+
+		.item[has-no-date] .text {
+			color: var(--secondary-text-color);
+		}
+	</style>
+
+	<template>
+		<paper-icon-item class="item" on-tap="_getCorrectPicker">
+			<paper-ripple class="fit"></paper-ripple>
+			<iron-icon icon="[[icon]]" item-icon class="icon"></iron-icon>
+			<paper-item-body class="text">{{inputPlaceholder}}</paper-item-body>
+		</paper-icon-item>
+	</template>
+
+</dom-module>
+
+<script>
+
+(function() {
+
+	Polymer({
+		is: 'paper-picker-input',
+		properties: {
+
+			inputPlaceholder: {
+				type: String,
+				computed: '_setValuePlaceholder(date, hours, minutes, picker)'
+			},
+			/**
+			 * Icon shown left of the date
+			 */
+			icon: String
+		},
+
+		behaviors: [
+			Polymer.BabylonPickerItemBehavior
+		],
+
+		_editDate: function() {
+			return this._edit('paper-date-picker-modal');
+		},
+
+		_editTime: function() {
+			return this._edit('paper-time-picker-modal');
+		},
+
+		_getCorrectPicker: function() {
+			if (this.picker === 'time') { 
+				this._editTime();
+			}	else {
+				this._editDate();
+			} 
+		},
+
+		_setValuePlaceholder: function(date, hours, minutes, picker){
+			if (this.picker === 'time') { 
+				return `${hours}:${minutes}`;
+			}	else {
+				return date;
+			} 
+		}
+	});
+})();
+
+</script>

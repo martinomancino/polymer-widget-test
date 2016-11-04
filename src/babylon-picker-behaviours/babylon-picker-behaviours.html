@@ -1,0 +1,174 @@
+<!doctype html>
+<!-- Set of common behaviors for the date-picker-item and the datetime-picker-item-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/moment-element/moment-import.html">
+<script>
+var Polymer = Polymer || {};
+/**
+ * Shared functionality for date picker
+ *
+ * @polymerBehavior Polymer.BabylonPickerItemBehavior
+ */
+Polymer.BabylonPickerItemBehavior = {
+	properties: {
+		/**
+		* Date reflected by the component
+		*/
+		date: {
+			type: Date,
+			value: null,
+			notify: true
+		},
+
+		hours: {
+			type: String,
+			value: null,
+			notify: true
+		},
+
+		minutes: {
+			type: String,
+			value: null,
+			notify: true
+		},
+
+		/**
+		 * Default time if none has been specified, in a string format HH:mm
+		 */
+		defaultTime: String,
+
+		/**
+		* Text shown when no date is set. Use this property to localize the element.
+		*/
+		placeholder: {
+			type: String,
+			value: 'Add a dates'
+		},
+
+		/**
+		* Text for the cancel button in the edit dialog. Use this property to localize the element.
+		*/
+		cancelButton: {
+			type: String,
+			value: 'Cancel'
+		},
+
+		/**
+		* Text for the OK button in the edit dialog. Use this property to localize the element.
+		*/
+		okButton: {
+			type: String,
+			value: 'OK'
+		}
+	},
+
+	attached: function() {
+			this.date = this._setInitialDate();
+			this.hours = this._setHours();
+			this.minutes = this._setMinutes();
+	},
+
+	_edit: function(dialogId) {
+		var dialog = document.createElement(dialogId);
+
+		// Wait until dialog is created before the properties can be set
+		// @see http://stackoverflow.com/a/31482376
+		this.async(function() {
+			// Initialize dialog with the current date (default to today to avoid exception)
+			dialog.date = this.date? moment(this.date).toDate() : new Date();
+
+			// Localize text
+			dialog.cancelButton = this.cancelButton;
+			dialog.okButton = this.okButton;
+
+			// Capture date if the user saved the dialog
+			dialog.addEventListener('paper-date-picker-modal-save', function(e) {
+				//console.log('Event', e)
+				this._changeDate(e.detail);
+			}.bind(this));
+
+			dialog.addEventListener('paper-time-picker-modal-save', function(e) {
+				this._changeTime(e.detail);
+			}.bind(this));
+
+			dialog.open();
+		}.bind(this));
+
+		// Return dialog for unit testing
+		return dialog;
+	},
+
+	_changeDate: function(date) {
+		this.date =  moment(date).format('MMM DD, YYYY');
+
+		/*let selectedDate = moment().calendar( date , {
+				sameDay: '[Today] MMM DD, YYYY',
+				nextDay: '[Tomorrow] MMM DD, YYYY',
+				sameElse: 'MMM DD, YYYY'
+		});*/
+	},
+
+	_changeTime: function(time) {
+		this.set('hours', time.hours);
+		this.set('minutes', time.minutes);
+	},
+
+	_setInitialDate: function(){ 
+		return moment(new Date()).format('MMM DD, YYYY');
+	},
+
+	_setHours: function(date){
+		if(parseInt( moment(new Date()).format('mm') ) > 50) {
+			return parseInt( moment(new Date()).add(1, 'hour').format('HH'))
+		} else {
+			return parseInt( moment(new Date()).format('HH'))
+		}
+	},
+
+	_setMinutes: function(date){
+		let currentSlot = parseInt( moment(new Date()).format('mm').substr(0, 1) + 0);
+		if(currentSlot < 50) {
+			return currentSlot +10;
+		} else {
+		return '0' + 0;
+		}
+	},
+
+	_increaseHour: function(){
+		if( this.$.hours.value >= 20) {
+		} else {
+			this.$.hours.value++
+		}
+	},
+
+	_decreaseHour: function(){
+		if( this.$.hours.value <= 8) {
+		} else {
+			this.$.hours.value--
+		}
+	},
+
+	_increaseMinute: function(){
+		if( this.$.minutes.value <= 40) {
+			this.$.minutes.value = parseInt(this.$.minutes.value) +10;
+		}
+	},
+
+	_decreaseMinute: function(){
+		if( this.$.minutes.value <= 10) {
+				this.$.minutes.value = '0'+ 0;
+		} else {
+			this.$.minutes.value = parseInt(this.$.minutes.value) -10;
+		}
+	},
+
+	_submitForm: function () {
+
+			date = moment(this.date).format('DD-MM-YYYY');
+			time = this.hours.toString() + '-' + this.minutes.toString();
+
+			window.location.href = `https://online.babylonhealth.com/sign-in?book-consultation=true&date=${date}&time=${time}` ;
+		},
+
+};
+</script>
